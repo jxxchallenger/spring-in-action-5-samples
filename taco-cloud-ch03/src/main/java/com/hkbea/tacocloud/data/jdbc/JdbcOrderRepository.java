@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hkbea.tacocloud.domain.Order;
 import com.hkbea.tacocloud.domain.Taco;
@@ -28,7 +27,7 @@ public class JdbcOrderRepository implements OrderRepository {
 	}
 
 	@Override
-	@Transactional
+	//@Transactional //事务注解不应该出现在DAO层
 	public Order save(Order order) {
 		long orderId = saveOrderDetails(order);
 		order.setId(orderId);

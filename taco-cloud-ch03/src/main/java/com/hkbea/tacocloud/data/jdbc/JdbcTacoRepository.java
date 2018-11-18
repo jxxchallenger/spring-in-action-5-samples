@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hkbea.tacocloud.domain.Ingredient;
 import com.hkbea.tacocloud.domain.Taco;
@@ -22,7 +20,7 @@ public class JdbcTacoRepository implements TacoRepository {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
+	//@Transactional(propagation = Propagation.REQUIRED) //事务注解不应该出现在DAO层
 	public Taco save(Taco taco) {
 		long tacoId = saveTacoInfo(taco);
 		taco.setId(tacoId);
