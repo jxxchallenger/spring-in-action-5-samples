@@ -16,7 +16,7 @@
 			<div class="ingredient-group" id="wraps">
 				<h3>Designate your wrap:</h3>
 				<div th:each="ingredient:${wrap}">
-					<input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+					<input name="ingredient" type="checkbox" th:value="${ingredient.id}">
 					<span th:text="${ingredient.name}">INGREDIENT</span>
 					<br>
 				</div>
@@ -24,7 +24,7 @@
 			<div class="ingredient-group" id="proteins">
 				<h3>Pick your protein:</h3>
 				<div th:each="ingredient:${protein}">
-					<input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+					<input name="ingredient" type="checkbox" th:value="${ingredient.id}">
 					<span th:text="${ingredient.name}">INGREDIENT</span>
 					<br>
 				</div>
@@ -32,7 +32,7 @@
 			<div class="ingredient-group" id="cheeses">
 				<h3>Choose your cheese:</h3>
 				<div th:each="ingredient:${cheese}">
-					<input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+					<input name="ingredient" type="checkbox" th:value="${ingredient.id}">
 					<span th:text="${ingredient.name}">INGREDIENT</span>
 					<br>
 				</div>
@@ -40,7 +40,7 @@
 			<div class="ingredient-group" id="veggies">
 				<h3>Determine your veggies:</h3>
 				<div th:each="ingredient:${veggies}">
-					<input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+					<input name="ingredient" type="checkbox" th:value="${ingredient.id}">
 					<span th:text="${ingredient.name}">INGREDIENT</span>
 					<br>
 				</div>
@@ -48,7 +48,7 @@
 			<div class="ingredient-group" id="sauces">
 				<h3>Select your sauce:</h3>
 				<div th:each="ingredient:${sauce}">
-					<input name="ingredients" type="checkbox" th:value="${ingredient.id}">
+					<input name="ingredient" type="checkbox" th:value="${ingredient.id}">
 					<span th:text="${ingredient.name}">INGREDIENT</span>
 					<br>
 				</div>
@@ -66,5 +66,18 @@
 			<button>Submit your taco</button>
 		</div>
 	</form>
+	<script type="text/javascript" th:src="@{/assets/libs/jquery/jquery-3.3.1.js}"></script>
+	<script type="text/javascript">
+		$("form input[type='checkbox']").change(function(){
+			$('.ingredients').remove();
+			var i = 0;
+			$("form input[type='checkbox']").each(function(){
+				if($(this).prop('checked')){
+					$('<input name="ingredients[' + i + '].id" type="hidden" class="ingredients">').val($(this).val()).insertAfter($(this));
+					i++;
+				}
+			});
+		});
+	</script>
 </body>
 </html>

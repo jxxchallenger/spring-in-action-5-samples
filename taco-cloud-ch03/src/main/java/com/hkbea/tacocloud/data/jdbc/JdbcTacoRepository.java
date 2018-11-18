@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hkbea.tacocloud.domain.Ingredient;
 import com.hkbea.tacocloud.domain.Taco;
 
 @Repository
@@ -25,8 +26,8 @@ public class JdbcTacoRepository implements TacoRepository {
 	public Taco save(Taco taco) {
 		long tacoId = saveTacoInfo(taco);
 		taco.setId(tacoId);
-		for(String ingredient:taco.getIngredients()) {
-			saveIngredientToTaco(ingredient, taco.getId());
+		for(Ingredient ingredient:taco.getIngredients()) {
+			saveIngredientToTaco(ingredient.getId(), taco.getId());
 		}
 		
 		return taco;
