@@ -19,5 +19,6 @@ INSERT INTO users (username, password, enabled) VALUES
 ('jxxchallenger', '123456', TRUE);
 
 INSERT INTO authorities (username, authority) VALUES
-('jxxchallenger', 'ROLE_ADMIN'),
-('jxxchallenger', 'ROLE_USER');
+--('jxxchallenger', 'ROLE_ADMIN'),
+--('jxxchallenger', 'ROLE_USER');
+('jxxchallenger', 'ROLE_ADMIN');
