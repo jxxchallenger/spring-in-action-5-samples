@@ -42,15 +42,23 @@ ALTER TABLE taco_order_tacos ADD FOREIGN KEY (taco) REFERENCES taco(id);
 -- Spring Security
 
 CREATE TABLE users(
-    username VARCHAR_IGNORECASE(50) NOT NULL PRIMARY KEY,
-    password VARCHAR_IGNORECASE(50) NOT NULL,
+    username VARCHAR(50) NOT NULL PRIMARY KEY,
+    password VARCHAR(50) NOT NULL,
     enabled BOOLEAN NOT NULL
 );
 
 CREATE TABLE authorities (
-    username VARCHAR_IGNORECASE(50) NOT NULL,
-    authority VARCHAR_IGNORECASE(50) NOT NULL,
-    CONSTRAINT fk_authorities_users FOREIGN KEY(username) REFERENCES users(username)
+    username VARCHAR(50) NOT NULL,
+    authority VARCHAR(50) NOT NULL
 );
 
+ALTER TABLE authorities ADD FOREIGN KEY (username) REFERENCES users(username);
 CREATE UNIQUE INDEX ix_auth_username ON authorities (username,authority);
+
+CREATE TABLE IF NOT EXISTS user_orders(
+	username VARCHAR(50) NOT NULL,
+	order_id BIGINT NOT NULL
+);
+
+ALTER TABLE user_orders ADD FOREIGN KEY (username) REFERENCES users(username);
+ALTER TABLE user_orders ADD FOREIGN KEY (order_id) REFERENCES taco_order(id);

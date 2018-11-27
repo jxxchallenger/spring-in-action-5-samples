@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		//http.authorizeRequests().antMatchers("/design", "/orders").hasRole("USER").antMatchers("/", "/**").permitAll().and().formLogin();
 		http.authorizeRequests()
-			.antMatchers("/design", "/orders")
+			.antMatchers("/design/**", "/orders/**")
 			.access("hasRole('USER')")
 			.antMatchers("/", "/**")
 			.permitAll()
@@ -73,6 +73,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.logout()
 			.invalidateHttpSession(true);//默认就是true
+			/*.and()
+			.csrf()
+			.disable()
+			.headers()
+			.frameOptions()
+			.sameOrigin()*/
 	}
 
 }

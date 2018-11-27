@@ -18,12 +18,15 @@ public class JdbcOrderRepository implements OrderRepository {
 	private SimpleJdbcInsert orderInserter;
 	
 	private SimpleJdbcInsert orderTacoInserter;
+	
+	private SimpleJdbcInsert OrderUserInserter;
 
 	@Autowired
 	public JdbcOrderRepository(JdbcTemplate jdbcTemplate) {
 		super();
 		this.orderInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("taco_order").usingGeneratedKeyColumns("id");
 		this.orderTacoInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("taco_order_tacos");
+		this.OrderUserInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("user_orders");
 	}
 
 	@Override
@@ -34,6 +37,7 @@ public class JdbcOrderRepository implements OrderRepository {
 		for(Taco taco : order.getTacos()) {
 			saveTacoToOrder(taco.getId(), orderId);
 		}
+		saveOrderToUser(orderId, order.getUser().getUsername());
 		return order;
 	}
 	
@@ -45,5 +49,9 @@ public class JdbcOrderRepository implements OrderRepository {
 
 	private void saveTacoToOrder(long tacoId, long orderId) {
 		this.orderTacoInserter.execute(new MapSqlParameterSource().addValue("taco", tacoId).addValue("tacoOrder", orderId));
+	}
+	
+	private void saveOrderToUser(long orderId, String username) {
+		this.OrderUserInserter.execute(new MapSqlParameterSource().addValue("order_id", orderId).addValue("username", username));
 	}
 }

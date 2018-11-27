@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.security.core.userdetails.User;
 
 public class Order {
 	
@@ -42,6 +43,8 @@ public class Order {
 	
 	private List<Taco> tacos = new ArrayList<Taco>();
 
+	private User user;
+	
 	public Long getId() {
 		return id;
 	}
@@ -128,6 +131,14 @@ public class Order {
 
 	public List<Taco> getTacos() {
 		return tacos;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
