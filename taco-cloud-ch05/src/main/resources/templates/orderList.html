@@ -9,7 +9,18 @@
 <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-	<h1>Welcome to ...</h1>
-	<img alt="" th:src="@{/images/TacoCloud.png}">
+	<div class="col-12 d-none d-md-inline-flex justify-content-end">
+		<form th:action="@{/logout}" method="post" class="form-inline">
+			<button type="submit" class="btn btn-sm btn-primary">Logout</button>
+		</form>
+	</div>
+	<h1>Your orders</h1>
+	<ul>
+		<li th:each="order:${orders}">
+			<span th:text="${#temporals.format(order.placedAt, 'yyyy-MM-dd HH:mm:ss')}">DATE</span>
+			<span th:text="${order.deliveryName}">NAME</span>
+		</li>
+	</ul> 
+
 </body>
 </html>

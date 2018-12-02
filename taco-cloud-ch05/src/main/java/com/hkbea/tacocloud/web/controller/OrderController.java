@@ -19,6 +19,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.hkbea.tacocloud.data.jdbc.OrderRepository;
 import com.hkbea.tacocloud.domain.Order;
+import com.hkbea.tacocloud.web.OrderProps;
 
 @Controller
 @RequestMapping(value = {"/orders"})
@@ -30,6 +31,9 @@ public class OrderController {
 	@Autowired
 	private OrderRepository orderRepository;
 	
+	@Autowired
+	private OrderProps orderProps;
+
 	@GetMapping(value = {"/current"})
 	public String orderForm(Model model) {
 		//order设置为session
@@ -50,5 +54,12 @@ public class OrderController {
 		
 		
 		return "redirect:/";
+	}
+	
+	@GetMapping
+	public String ordersForUser(@AuthenticationPrincipal User user, Model model) { 
+		model.addAttribute("orders", this.orderRepository.findByUser(user.getUsername(), 0, orderProps.getPageSize()));
+		
+		return "orderList";
 	}
 }

@@ -1,11 +1,14 @@
 package com.hkbea.tacocloud.data.jdbc;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +23,9 @@ public class JdbcOrderRepository implements OrderRepository {
 	private SimpleJdbcInsert orderTacoInserter;
 	
 	private SimpleJdbcInsert OrderUserInserter;
+	
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	@Autowired
 	public JdbcOrderRepository(JdbcTemplate jdbcTemplate) {
@@ -53,5 +59,11 @@ public class JdbcOrderRepository implements OrderRepository {
 	
 	private void saveOrderToUser(long orderId, String username) {
 		this.OrderUserInserter.execute(new MapSqlParameterSource().addValue("order_id", orderId).addValue("username", username));
+	}
+
+	@Override
+	public List<Order> findByUser(String username, int start, int end) {
+		String sql = "SELECT o.id, o.deliveryName, o.deliveryStreet, o.deliveryCity, o.deliveryState, o.deliveryZip, o.ccNumber, o.ccExpiration, o.ccCVV, o.placedAt FROM taco_order o JOIN user_orders u ON o.id = u.order_id WHERE u.username = :username LIMIT :start, :end";
+		return this.namedParameterJdbcTemplate.query(sql, new MapSqlParameterSource().addValue("username", username).addValue("start", start).addValue("end", end), new BeanPropertyRowMapper<Order>(Order.class));
 	}
 }

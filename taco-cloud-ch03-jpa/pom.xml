@@ -5,7 +5,7 @@
 
 	<groupId>com.hkbea</groupId>
 	<artifactId>taco-cloud-ch03-jpa</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>taco-cloud-ch03-jpa</name>
